@@ -12,9 +12,52 @@
     <div id="opciones"></div>
     <p id="feedback"></p>
     <button id="siguiente" style="display:none;">Siguiente</button>
+    <br>
+    <button id="diccionario">📚 Ver Diccionario</button>
+    <button id="volverInicio">🏠 Volver al inicio</button>
+
+    <!-- Diccionario -->
+    <div id="diccionarioContainer" style="display:none; margin-top:20px; text-align:left;">
+      <input type="text" id="buscar" placeholder="Buscar palabra..." style="width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;">
+      <div id="diccionarioLista"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>
+  <script>
+    // Botón volver al inicio
+    const btnInicio = document.getElementById("volverInicio");
+    btnInicio.addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    // Diccionario
+    const btnDicc = document.getElementById("diccionario");
+    const diccContainer = document.getElementById("diccionarioContainer");
+    const diccLista = document.getElementById("diccionarioLista");
+    const buscarInput = document.getElementById("buscar");
+
+    btnDicc.addEventListener("click", () => {
+      if (diccContainer.style.display === "none") {
+        diccContainer.style.display = "block";
+        mostrarDiccionario(palabras);
+      } else {
+        diccContainer.style.display = "none";
+      }
+    });
+
+    buscarInput.addEventListener("input", () => {
+      const filtro = buscarInput.value.toLowerCase();
+      const filtradas = palabras.filter(p => p.palabra.toLowerCase().includes(filtro));
+      mostrarDiccionario(filtradas);
+    });
+
+    function mostrarDiccionario(lista) {
+      diccLista.innerHTML = lista.map(p => 
+        `<b>${p.palabra}</b>: ${p.significado}<br><i>Ejemplo:</i> ${p.ejemplo || 'N/A'}<br><br>`
+      ).join('');
+    }
+  </script>
 </body>
 </html>
 
